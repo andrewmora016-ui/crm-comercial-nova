@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRM Comercial Nova - Gestión</title>
+    <title>CRM Comercial Nova - Interactivo</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -22,9 +22,14 @@
                     <p class="text-xs text-slate-400 font-medium tracking-widest">DYNAMIC INNOVATION CRM</p>
                 </div>
             </div>
-            <button onclick="resetearDatos()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs px-3 py-1.5 rounded-lg border border-slate-700 transition-all">
-                <i class="fa-solid fa-rotate-right mr-1"></i> Restaurar Casos Originales
-            </button>
+            <div class="flex items-center gap-2">
+                <span class="text-xs text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-3 py-1.5 rounded-lg">
+                    <i class="fa-solid fa-circle-check mr-1"></i> Modo Escritura Directa Activo
+                </span>
+                <button onclick="resetearDatos()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs px-3 py-1.5 rounded-lg border border-slate-700 transition-all">
+                    Restaurar Originales
+                </button>
+            </div>
         </div>
     </header>
 
@@ -85,11 +90,11 @@
         </section>
     </main>
 
-    <!-- MODAL PARA NUEVA / EDITAR SOLICITUD -->
+    <!-- MODAL DE ESCRITURA Y EDICIÓN -->
     <div id="modalSolicitud" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
         <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-2xl">
             <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-                <h3 id="modalTitulo" class="text-lg font-bold text-cyan-400"><i class="fa-solid fa-file-circle-plus mr-2"></i>Nueva Solicitud CRM</h3>
+                <h3 id="modalTitulo" class="text-lg font-bold text-cyan-400"><i class="fa-solid fa-pen-to-square mr-2"></i>Gestionar Solicitud</h3>
                 <button onclick="cerrarModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
             <form id="formSolicitud" onsubmit="guardarSolicitud(event)" class="space-y-3">
@@ -113,10 +118,11 @@
                             <option value="Línea telefónica">Línea telefónica</option>
                             <option value="Formulario web">Formulario web</option>
                             <option value="Presencial">Presencial</option>
+                            <option value="Chat web">Chat web</option>
                         </select>
                     </div>
                     <div>
-                        <label class="text-xs text-slate-400 block mb-1">Estado</label>
+                        <label class="text-xs text-slate-400 block mb-1">Estado de la Solicitud</label>
                         <select id="inputEstado" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-cyan-500">
                             <option value="Pendiente">Pendiente</option>
                             <option value="En proceso">En proceso</option>
@@ -127,11 +133,11 @@
                 </div>
                 <div>
                     <label class="text-xs text-slate-400 block mb-1">Tipo de Solicitud</label>
-                    <input type="text" id="inputTipo" placeholder="Ej. Soporte técnico, Cotización..." required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-cyan-500">
+                    <input type="text" id="inputTipo" placeholder="Ej. Soporte técnico..." required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-cyan-500">
                 </div>
                 <div>
                     <label class="text-xs text-slate-400 block mb-1">Descripción de la Necesidad</label>
-                    <textarea id="inputNecesidad" rows="2" placeholder="Detalle del caso..." required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-cyan-500"></textarea>
+                    <textarea id="inputNecesidad" rows="2" placeholder="Escribe aquí los detalles..." required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-cyan-500"></textarea>
                 </div>
                 <div>
                     <label class="text-xs text-slate-400 block mb-1">Asesor Responsable</label>
@@ -148,7 +154,7 @@
     <!-- SCRIPT -->
     <script>
         const datosOriginales = [
-            { "Código de solicitud": "SOL-001", "Identificador del cliente": "C-001", "Canal de atención": "WhatsApp empresarial", "Tipo de solicitud": "Información de pedido", "Descripción de la necesidad": "Pedido CN-4587. Computador de $2.850.000 no llegó en fecha.", "Asesor responsable": "Sin asignar", "Estado de la solicitud": "Pendiente" },
+            { "Código de solicitud": "SOL-001", "Identificador del cliente": "C-001", "Canal de atención": "WhatsApp empresarial", "Tipo de solicitud": "Información de pedido", "Descripción de la necesidad": "Pedido CN-4587. Computador de \$2.850.000 no llegó en fecha.", "Asesor responsable": "Sin asignar", "Estado de la solicitud": "Pendiente" },
             { "Código de solicitud": "SOL-002", "Identificador del cliente": "C-002", "Canal de atención": "Correo electrónico", "Tipo de solicitud": "Cotización empresarial", "Descripción de la necesidad": "Solicita cotización formal para 10 impresoras multifuncionales.", "Asesor responsable": "Sin asignar", "Estado de la solicitud": "Pendiente" },
             { "Código de solicitud": "SOL-003", "Identificador del cliente": "C-003", "Canal de atención": "Línea telefónica", "Tipo de solicitud": "Garantía y revisión técnica", "Descripción de la necesidad": "Factura FV-3815. Nevera presenta ruidos constantes.", "Asesor responsable": "Camila Ruiz", "Estado de la solicitud": "En proceso" },
             { "Código de solicitud": "SOL-004", "Identificador del cliente": "C-004", "Canal de atención": "Formulario web", "Tipo de solicitud": "Reclamo cobro duplicado", "Descripción de la necesidad": "Transacción TR-90871. Dos movimientos por el mismo valor.", "Asesor responsable": "Sergio Lopez", "Estado de la solicitud": "En proceso" },
@@ -182,8 +188,8 @@
                     <td class="p-3 text-xs font-medium text-purple-300">${row['Asesor responsable']}</td>
                     <td class="p-3"><span class="px-2.5 py-1 rounded-full text-xs font-semibold border ${badgeColor}">${row['Estado de la solicitud']}</span></td>
                     <td class="p-3 text-center flex items-center justify-center gap-2">
-                        <button onclick="editarSolicitud(${index})" class="text-slate-400 hover:text-cyan-400 p-1" title="Editar / Cambiar Estado"><i class="fa-solid fa-pen-to-square"></i></button>
-                        <button onclick="eliminarSolicitud(${index})" class="text-slate-500 hover:text-rose-400 p-1" title="Eliminar"><i class="fa-solid fa-trash"></i></button>
+                        <button onclick="editarSolicitud(${index})" class="bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 hover:bg-cyan-500 hover:text-white px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all" title="Editar o cambiar estado"><i class="fa-solid fa-pen-to-square mr-1"></i> Editar</button>
+                        <button onclick="eliminarSolicitud(${index})" class="bg-rose-500/10 border border-rose-500/30 text-rose-400 hover:bg-rose-500 hover:text-white p-1.5 rounded-lg text-xs transition-all" title="Eliminar"><i class="fa-solid fa-trash"></i></button>
                     </td>
                 `;
                 tbody.appendChild(tr);
@@ -203,122 +209,4 @@
             renderChart('estadoChart', 'doughnut', Object.keys(estados), Object.values(estados));
             renderChart('canalChart', 'bar', Object.keys(canales), Object.values(canales));
             renderChart('asesorChart', 'bar', Object.keys(asesores), Object.values(asesores), true);
-            renderChart('tipoChart', 'pie', Object.keys(tipos), Object.values(tipos));
-        }
-
-        function renderChart(canvasId, type, labels, data, horizontal = false) {
-            if (charts[canvasId]) charts[canvasId].destroy();
-            const ctx = document.getElementById(canvasId).getContext('2d');
-            charts[canvasId] = new Chart(ctx, {
-                type: type,
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        data: data,
-                        backgroundColor: ['#0066FF', '#8A2BE2', '#00F2FE', '#F59E0B', '#10B981', '#EC4899', '#6366F1']
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    indexAxis: horizontal ? 'y' : 'x',
-                    plugins: { legend: { display: type !== 'bar', position: 'bottom', labels: { color: '#94a3b8', boxWidth: 6, font: { size: 8 } } } },
-                    scales: type !== 'doughnut' && type !== 'pie' ? { x: { ticks: { color: '#94a3b8', font: { size: 9 } } }, y: { ticks: { color: '#94a3b8', font: { size: 9 } } } } : {}
-                }
-            });
-        }
-
-        function abrirModal() {
-            document.getElementById('editIndex').value = '';
-            document.getElementById('modalTitulo').innerHTML = '<i class="fa-solid fa-file-circle-plus mr-2"></i>Nueva Solicitud CRM';
-            document.getElementById('formSolicitud').reset();
-            document.getElementById('inputCodigo').value = `SOL-00${datosCRM.length + 1}`;
-            document.getElementById('modalSolicitud').classList.remove('hidden');
-            document.getElementById('modalSolicitud').classList.add('flex');
-        }
-
-        function editarSolicitud(index) {
-            const item = datosCRM[index];
-            document.getElementById('editIndex').value = index;
-            document.getElementById('modalTitulo').innerHTML = '<i class="fa-solid fa-pen-to-square mr-2"></i>Editar Solicitud / Estado';
-            
-            document.getElementById('inputCodigo').value = item['Código de solicitud'];
-            document.getElementById('inputCliente').value = item['Identificador del cliente'];
-            document.getElementById('inputCanal').value = item['Canal de atención'];
-            document.getElementById('inputEstado').value = item['Estado de la solicitud'];
-            document.getElementById('inputTipo').value = item['Tipo de solicitud'];
-            document.getElementById('inputNecesidad').value = item['Descripción de la necesidad'];
-            document.getElementById('inputAsesor').value = item['Asesor responsable'];
-
-            document.getElementById('modalSolicitud').classList.remove('hidden');
-            document.getElementById('modalSolicitud').classList.add('flex');
-        }
-
-        function cerrarModal() {
-            document.getElementById('modalSolicitud').classList.remove('flex');
-            document.getElementById('modalSolicitud').classList.add('hidden');
-            document.getElementById('formSolicitud').reset();
-        }
-
-        function guardarSolicitud(e) {
-            e.preventDefault();
-            const index = document.getElementById('editIndex').value;
-            
-            const itemEditado = {
-                "Código de solicitud": document.getElementById('inputCodigo').value,
-                "Identificador del cliente": document.getElementById('inputCliente').value,
-                "Canal de atención": document.getElementById('inputCanal').value,
-                "Tipo de solicitud": document.getElementById('inputTipo').value,
-                "Descripción de la necesidad": document.getElementById('inputNecesidad').value,
-                "Asesor responsable": document.getElementById('inputAsesor').value,
-                "Estado de la solicitud": document.getElementById('inputEstado').value
-            };
-
-            if (index === "") {
-                datosCRM.unshift(itemEditado); // Nuevo registro
-            } else {
-                datosCRM[index] = itemEditado; // Actualizar existente
-            }
-
-            localStorage.setItem('crm_nova_datos', JSON.stringify(datosCRM));
-            
-            renderizarTabla(datosCRM);
-            actualizarGraficos(datosCRM);
-            cerrarModal();
-        }
-
-        function eliminarSolicitud(index) {
-            if (confirm('¿Deseas eliminar este registro del CRM?')) {
-                datosCRM.splice(index, 1);
-                localStorage.setItem('crm_nova_datos', JSON.stringify(datosCRM));
-                renderizarTabla(datosCRM);
-                actualizarGraficos(datosCRM);
-            }
-        }
-
-        function resetearDatos() {
-            if (confirm('¿Deseas restaurar los casos originales de la base de datos?')) {
-                datosCRM = [...datosOriginales];
-                localStorage.removeItem('crm_nova_datos');
-                renderizarTabla(datosCRM);
-                actualizarGraficos(datosCRM);
-            }
-        }
-
-        function filtrarTabla() {
-            const texto = document.getElementById('searchInput').value.toLowerCase();
-            const filtrados = datosCRM.filter(d => 
-                d['Código de solicitud'].toLowerCase().includes(texto) ||
-                d['Identificador del cliente'].toLowerCase().includes(texto) ||
-                d['Descripción de la necesidad'].toLowerCase().includes(texto) ||
-                d['Asesor responsable'].toLowerCase().includes(texto)
-            );
-            renderizarTabla(filtrados);
-        }
-
-        // Inicializar
-        renderizarTabla(datosCRM);
-        actualizarGraficos(datosCRM);
-    </script>
-</body>
-</html>
+            renderChart('tipoChart
